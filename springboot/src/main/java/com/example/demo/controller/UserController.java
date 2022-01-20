@@ -36,7 +36,7 @@ public class UserController {
         if(user_check == null){
             return Result.error("-1","用户名或者密码错误");
         }
-        return Result.success();
+        return Result.success(user_check);
     }
 
     @PostMapping("/register")

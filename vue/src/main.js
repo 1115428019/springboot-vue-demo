@@ -4,7 +4,19 @@ import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-import * as ElIconModules from '@element-plus/icons';
+
+
+router.beforeEach((to,from,next) => {
+    if(to.path === "/login"||to.path === "/register"){
+        next()
+    }else{
+        if (sessionStorage.getItem('user')){
+            next()
+        } else {
+            next("/login")
+        }
+    }
+})
 
 import '@/assets/css/global.css'
 createApp(App).use(store).use(router).use(ElementPlus,{size:'small'}).mount('#app')

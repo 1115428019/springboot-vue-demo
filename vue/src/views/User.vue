@@ -73,11 +73,11 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '../components/HelloWorld.vue';
 import request from "../utils/request";
 
 export default {
-  name: 'Home',
+  name: 'User',
   components: {
     HelloWorld
   },
@@ -86,7 +86,7 @@ export default {
   },
   methods:{
     load(){
-      request.get("http://localhost:9090/user",{
+      request.get("/user",{
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -105,7 +105,7 @@ export default {
     },
     save(){
       if (this.form.id){
-        request.put("http://localhost:9090/user",this.form).then(res =>{
+        request.put("/user",this.form).then(res =>{
           console.log(res)
           this.dialogVisible=false
           if(res.code === '0'){
@@ -124,7 +124,7 @@ export default {
           this.dialogVisible = false
         })}
       else{
-        request.post("http://localhost:9090/user",this.form).then(res =>{
+        request.post("/user",this.form).then(res =>{
           console.log(res)
           this.dialogVisible=false
           if(res.code === '0'){
@@ -145,7 +145,7 @@ export default {
       }
     },
     handleDelete(id){
-      request.delete("http://localhost:9090/user/"+ id).then(res =>{
+      request.delete("/user/"+ id).then(res =>{
         console.log(res)
         if(res.code === '0'){
           this.$message({

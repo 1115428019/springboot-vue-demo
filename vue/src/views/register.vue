@@ -68,7 +68,7 @@ export default {
       }
       this.$refs['rule_form'].validate((valid)=>{
         if(valid){
-          request.post("http://localhost:9090/user/register",this.rule_form).then(res=>{
+          request.post("/user/register",this.rule_form).then(res=>{
             if(res.code === '0'){
               this.$message({
                 type:"success",

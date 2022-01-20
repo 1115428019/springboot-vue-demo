@@ -6,23 +6,40 @@ const routes = [
     path: '/',
     name: 'layout',
     component: layout,
-    redirect:"/home",
+    redirect:"/user",
     children:[{
-      path: 'home',
-      name: 'Home',
-      component: () => import("@/views/Home"),
-    }]
+      path: 'user',
+      name: 'User',
+      component: () => import("../views/User"),
+    },
+      {
+      path: '/book',
+      name: 'book',
+      component: () => import("../views/book"),
+        meta: {
+          requireAuth: true
+        }
+    },
+      {
+        path: '/person',
+        name: 'person',
+        component: () => import("../views/person"),
+        meta: {
+          requireAuth: true
+        }
+      }
+    ]
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import("@/views/login")
+    component: () => import("../views/login")
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import("@/views/register")
-  }
+    component: () => import("../views/register")
+  },
 ]
 
 const router = createRouter({
