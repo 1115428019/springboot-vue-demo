@@ -6,7 +6,7 @@ const routes = [
     path: '/',
     name: 'layout',
     component: layout,
-    redirect:"/user",
+    redirect:"/book",
     children:[{
       path: 'user',
       name: 'User',
@@ -24,6 +24,14 @@ const routes = [
         path: '/person',
         name: 'person',
         component: () => import("../views/person"),
+        meta: {
+          requireAuth: true
+        }
+      },
+      {
+        path: '/news',
+        name: 'News',
+        component: () => import("../views/News"),
         meta: {
           requireAuth: true
         }

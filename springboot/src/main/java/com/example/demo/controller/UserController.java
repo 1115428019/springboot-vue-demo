@@ -78,5 +78,10 @@ public class UserController {
         return Result.success(userPage);
     }
 
+    @GetMapping("/{id}")
+    @CrossOrigin
+    public Result<?> getById(@PathVariable Long id){
+        return Result.success(userMapper.selectById(id));
+    }
 
 }
