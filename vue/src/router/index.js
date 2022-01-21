@@ -6,7 +6,7 @@ const routes = [
     path: '/',
     name: 'layout',
     component: layout,
-    redirect:"/user",
+    redirect:"/book",
     children:[{
       path: 'user',
       name: 'User',
@@ -27,6 +27,14 @@ const routes = [
         meta: {
           requireAuth: true
         }
+      },
+      {
+        path: '/news',
+        name: 'News',
+        component: () => import("../views/News"),
+        meta: {
+          requireAuth: true
+        }
       }
     ]
   },
@@ -40,6 +48,16 @@ const routes = [
     name: 'register',
     component: () => import("../views/register")
   },
+  {
+    path:'/cover',
+    name:'cover',
+    component: () => import("../views/cover")
+  },
+  {
+    path:'/appointment',
+    name:'appointment',
+    component: () => import("../views/appointment")
+  }
 ]
 
 const router = createRouter({

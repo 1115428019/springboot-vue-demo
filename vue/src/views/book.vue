@@ -11,18 +11,31 @@
       <el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable></el-input>
       <el-button type="primary" @click="load" style="margin-left: 5px">查询</el-button>
     </div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table
+        :data="tableData"
+        border
+        stripe
+        style="width: 100%"
+      >
       <el-table-column prop="id" label="ID" sortable />
       <el-table-column prop="name" label="名称"  />
       <el-table-column prop="price" label="单价" />
       <el-table-column prop="author" label="作者" />
       <el-table-column prop="createTime" label="出版时间" />
-      <el-table-column  label="Operations">
+      <el-table-column label="封面">
         <template #default="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">Edit</el-button>
+          <el-image style="width: 100px;width: 100px"
+          :src="scope.row.cover"
+          :preview-src-list="[scope.row.cover]">
+          </el-image>
+        </template>
+      </el-table-column>
+      <el-table-column  label="操作">
+        <template #default="scope">
+          <el-button size="mini"  @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.row.id)">
             <template #reference>
-              <el-button size="mini" type="danger">Delete</el-button>
+              <el-button size="mini" type="danger">删除</el-button>
             </template>
           </el-popconfirm>
         </template>
@@ -53,11 +66,16 @@
           <el-form-item label="出版时间">
             <el-date-picker v-model="form.createTime" value-format="YYYY-MM-DD" type="date" style="width: 80%" clearable></el-date-picker>
           </el-form-item>
+          <el-form-item label="封面">
+            <el-upload ref="upload" action="http://localhost:9090/files/upload" :on-success="filesUploadSuccess">
+              <el-button  type="primary">点击上传</el-button>
+            </el-upload>
+          </el-form-item>
         </el-form>
         <template #footer>
         <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="save">Confirm</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="save">确认</el-button>
       </span>
         </template>
       </el-dialog>
@@ -77,6 +95,10 @@ export default {
     this.load()
   },
   methods:{
+    filesUploadSuccess(res){
+      console.log(res)
+      this.form.cover = res.data
+    },
     load(){
       request.get("/Book",{
         params: {
@@ -94,6 +116,9 @@ export default {
     add(){
       this.dialogVisible=true
       this.form = {}
+      if (this.$refs['upload']) {
+        this.$refs['upload'].clearFiles()  // 清除历史文件列表
+      }
     },
     save(){
       if (this.form.id){
@@ -157,6 +182,11 @@ export default {
     handleEdit(row){
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
+      this.$nextTick(() => {
+        if (this.$refs['upload']) {
+          this.$refs['upload'].clearFiles()  // 清除历史文件列表
+        }
+      })
     },
     handleSizeChange(pageSize){
       this.pageSize = pageSize
@@ -183,3 +213,8 @@ export default {
 
 
 </script>
+<style>
+.el-table .el-table__cell{
+  z-index: auto;
+}
+</style>

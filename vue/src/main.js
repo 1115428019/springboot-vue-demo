@@ -7,7 +7,7 @@ import 'element-plus/dist/index.css';
 
 
 router.beforeEach((to,from,next) => {
-    if(to.path === "/login"||to.path === "/register"){
+    if(to.path === "/login"||to.path === "/register"||to.path === "/cover"||to.path === "/appointment"){
         next()
     }else{
         if (sessionStorage.getItem('user')){

@@ -1,32 +1,30 @@
 <template>
   <div style="padding: 10px">
-<!--    功能区域-->
+    <!--    功能区域-->
     <div style="margin: 10px 0">
       <el-button type="primary" @click="add">新增</el-button>
       <el-button type="primary">导入</el-button>
-      <el-button type="primary" @click="exportToExcel">导出</el-button>
+      <el-button type="primary">导出</el-button>
     </div>
-<!--    搜索区域-->
+    <!--    搜索区域-->
     <div style="margin: 10px 0">
-<el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable></el-input>
+      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable></el-input>
       <el-button type="primary" @click="load" style="margin-left: 5px">查询</el-button>
     </div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table
+        :data="tableData"
+        border
+        stripe
+        style="width: 100%"
+    >
       <el-table-column prop="id" label="ID" sortable />
-      <el-table-column prop="username" label="用户名"  />
-      <el-table-column prop="nickName" label="昵称" />
-      <el-table-column prop="age" label="年龄" />
-      <el-table-column prop="sex" label="性别" />
-      <el-table-column prop="address" label="地址" />
-      <el-table-column label="角色">
-        <template #default="scope">
-          <span v-if="scope.row.role === 1">管理员</span>
-          <span v-if="scope.row.role === 2">普通用户</span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="title" label="标题"  />
+      <el-table-column prop="author" label="作者"  />
+      <el-table-column prop="time" label="时间" />
       <el-table-column  label="操作">
         <template #default="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="mini"  @click="details(scope.row)">详情</el-button>
+          <el-button size="mini"  @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm title="Are you sure to delete this?" @confirm="handleDelete(scope.row.id)">
             <template #reference>
               <el-button size="mini" type="danger">删除</el-button>
@@ -46,32 +44,24 @@
           @current-change="handleCurrentChange"
       >
       </el-pagination>
-      <el-dialog v-model="dialogVisible" title="Tips"  width="30%">
+      <el-dialog title="提示" v-model="dialogVisible" width="50%">
         <el-form :model="form" label-width="120px">
-          <el-form-item label="用户名">
-            <el-input v-model="form.username" style="width: 80%"></el-input>
+          <el-form-item label="标题">
+            <el-input v-model="form.title" style="width: 50%"></el-input>
           </el-form-item>
-          <el-form-item label="昵称">
-            <el-input v-model="form.nickName" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="年龄">
-            <el-input v-model="form.age" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-            <el-radio v-model="form.sex" label="man" >man</el-radio>
-            <el-radio v-model="form.sex" label="woman" >woman</el-radio>
-            <el-radio v-model="form.sex" label="unknown" >unknown</el-radio>
-          </el-form-item>
-          <el-form-item label="地址">
-            <el-input type="textarea" v-model="form.address" style="width: 80%"></el-input>
-          </el-form-item>
+          <div id="div1"></div>
         </el-form>
         <template #footer>
-        <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="save">确认</el-button>
-      </span>
+          <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="save">确 定</el-button>
+          </span>
         </template>
+      </el-dialog>
+      <el-dialog title="详情" v-model="vis" width="50%">
+        <el-card>
+          <div v-html="detail.content" style="min-height: 100px"></div>
+        </el-card>
       </el-dialog>
     </div>
   </div>
@@ -79,36 +69,29 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '../components/HelloWorld.vue';
+import E from 'wangeditor'
 import request from "../utils/request";
 
+let editor;
+
 export default {
-  name: 'User',
+  name: 'News',
   components: {
-    HelloWorld
   },
   created() {``
     this.load()
   },
   methods:{
-    exportToExcel() {
-          //excel数据导出
-         require.ensure([], () => {
-             const {
-               export_json_to_excel
-               } = require('../assets/js/Export2Excel');
-             const tHeader = ['序号','用户名', '昵称 ', '年龄', '性别','地址'];
-             const filterVal = ['id','username', 'nickName','age', 'sex', 'address'];
-             const list = this.users;
-             const data = this.formatJson(filterVal, list);
-             export_json_to_excel(tHeader, data, '用户列表');
-           })
-         },
-       formatJson(filterVal, jsonData) {
-         return jsonData.map(v => filterVal.map(j => v[j]))
-             },
-load(){
-      request.get("/user",{
+    details(row) {
+      this.detail = row
+      this.vis = true
+    },
+    filesUploadSuccess(res){
+      console.log(res)
+      this.form.cover = res.data
+    },
+    load(){
+      request.get("/news",{
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -124,10 +107,23 @@ load(){
     add(){
       this.dialogVisible=true
       this.form = {}
+      this.$nextTick(() => {
+        // 关联弹窗里面的div，new一个 editor对象
+        if (!editor) {
+          editor = new E('#div1')
+
+          // 配置 server 接口地址
+          editor.config.uploadImgServer = 'http://localhost:9090/files/editor/upload'
+          editor.config.uploadFileName = "file"
+          editor.create()
+        }
+        editor.txt.html("")
+      })
     },
     save(){
+      this.form.content = editor.txt.html()
       if (this.form.id){
-        request.put("/user",this.form).then(res =>{
+        request.put("/news",this.form).then(res =>{
           console.log(res)
           this.dialogVisible=false
           if(res.code === '0'){
@@ -146,7 +142,10 @@ load(){
           this.dialogVisible = false
         })}
       else{
-        request.post("/user",this.form).then(res =>{
+        let userStr = sessionStorage.getItem("user") || "{}"
+        let user = JSON.parse(userStr)
+        this.form.author = user.nickName
+        request.post("/news",this.form).then(res =>{
           console.log(res)
           this.dialogVisible=false
           if(res.code === '0'){
@@ -167,7 +166,7 @@ load(){
       }
     },
     handleDelete(id){
-      request.delete("/user/"+ id).then(res =>{
+      request.delete("/news/"+ id).then(res =>{
         console.log(res)
         if(res.code === '0'){
           this.$message({
@@ -187,6 +186,21 @@ load(){
     handleEdit(row){
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogVisible = true
+
+      this.$nextTick(() => {
+        // 关联弹窗里面的div，new一个 editor对象
+        // 关联弹窗里面的div，new一个 editor对象
+        if (!editor) {
+          editor = new E('#div1')
+
+          // 配置 server 接口地址
+          editor.config.uploadImgServer = 'http://localhost:9090/files/editor/upload'
+          editor.config.uploadFileName = "file"
+          editor.create()
+        }
+
+        editor.txt.html(row.content)
+      })
     },
     handleSizeChange(pageSize){
       this.pageSize = pageSize
@@ -206,10 +220,16 @@ load(){
       currentPage:1,
       pageSize:10,
       tableData:[
-      ]
+      ],
+      vis: false,
+      detail: {},
     }
   }
 }
 
 
 </script>
+
+<style scoped>
+
+</style>
