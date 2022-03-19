@@ -28,49 +28,49 @@ public class FileController {
     @Value("${file.ip}")
     private String ip;
 
-    @PostMapping("/editor/upload")
-    @CrossOrigin
-    public JSON editorUpload(MultipartFile file) throws IOException {
-        String originalFilename = file.getOriginalFilename();  // 获取源文件的名称
-        // 定义文件的唯一标识（前缀）
-        String flag = IdUtil.fastSimpleUUID();
-        String rootFilePath = System.getProperty("user.dir") + "/springboot/src/main/resources/files/" + flag + "_" + originalFilename;  // 获取上传的路径
-        File saveFile = new File(rootFilePath);
-        if (!saveFile.getParentFile().exists()) {
-            saveFile.getParentFile().mkdirs();
-        }
-        FileUtil.writeBytes(file.getBytes(), rootFilePath);  // 把文件写入到上传的路径
-        String url = "http://" + ip + ":" + port + "/files/" + flag;
-        JSONObject json = new JSONObject();
-        json.set("errno", 0);
-        JSONArray arr = new JSONArray();
-        JSONObject data = new JSONObject();
-        arr.add(data);
-        data.set("url", url);
-        json.set("data", arr);
-        return json;  // 返回结果 url
-    }
+//    @PostMapping("/editor/upload")
+//    @CrossOrigin
+//    public JSON editorUpload(MultipartFile file) throws IOException {
+//        String originalFilename = file.getOriginalFilename();  // 获取源文件的名称
+//        // 定义文件的唯一标识（前缀）
+//        String flag = IdUtil.fastSimpleUUID();
+//        String rootFilePath = System.getProperty("user.dir") + "/springboot/src/main/resources/files/" + flag + "_" + originalFilename;  // 获取上传的路径
+//        File saveFile = new File(rootFilePath);
+//        if (!saveFile.getParentFile().exists()) {
+//            saveFile.getParentFile().mkdirs();
+//        }
+//        FileUtil.writeBytes(file.getBytes(), rootFilePath);  // 把文件写入到上传的路径
+//        String url = "http://" + ip + ":" + port + "/files/" + flag;
+//        JSONObject json = new JSONObject();
+//        json.set("errno", 0);
+//        JSONArray arr = new JSONArray();
+//        JSONObject data = new JSONObject();
+//        arr.add(data);
+//        data.set("url", url);
+//        json.set("data", arr);
+//        return json;  // 返回结果 url
+//    }
 
     @PostMapping("/upload")
     @CrossOrigin
     public Result<?> upload(MultipartFile file) throws IOException {
-        String originalFilename = file.getOriginalFilename();  // 获取源文件的名称
+        String originalFilename = file.getName();  // 获取文件的名称
         // 定义文件的唯一标识（前缀）
         String flag = IdUtil.fastSimpleUUID();
-        String rootFilePath = System.getProperty("user.dir") +"/springboot/src/main/resources/files/" + flag + "_" + originalFilename;  // 获取上传的路径
+        String rootFilePath = System.getProperty("user.dir") +"/vue/src/assets/userPhoto/" + flag + originalFilename+".jpg";  // 获取上传的路径
         File saveFile = new File(rootFilePath);
         if (!saveFile.getParentFile().exists()) {
             saveFile.getParentFile().mkdirs();
         }
         FileUtil.writeBytes(file.getBytes(), rootFilePath);  // 把文件写入到上传的路径
-        return Result.success("http://" + ip + ":" + port + "/files/" + flag);  // 返回结果 url
+        return Result.success( flag+originalFilename);  // 返回flag加
     }
 
     @GetMapping("/{flag}")
     @CrossOrigin
     public void getFiles(@PathVariable String flag, HttpServletResponse response) {
         OutputStream os;  // 新建一个输出流对象
-        String basePath = System.getProperty("user.dir") + "/springboot/src/main/resources/files/";  // 定于文件上传的根路径
+        String basePath = System.getProperty("user.dir") + "/vue/src/assets/userPhoto/";  // 定于文件上传的根路径
         List<String> fileNames = FileUtil.listFileNames(basePath);  // 获取所有的文件名称
         String fileName = fileNames.stream().filter(name -> name.contains(flag)).findAny().orElse("");  // 找到跟参数一致的文件
         try {

@@ -30,10 +30,51 @@
           </div>
         </div>
       </el-col>
-      <el-col :span="3" :offset="9">
+      <el-col :span="3" :offset="1" v-if="anti_AddNum">
         <div class="grid-content bg-purple">
           <div :key="fits"  class="row">
-              <el-button type="primary" class="login_button" size="large">login</el-button>
+            <el-button type="primary" class="login_button" size="large" @click="to_home()">Home page</el-button>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="3" v-if="anti_AddNum">
+        <div class="grid-content bg-purple">
+          <div :key="fits"  class="row">
+            <el-button type="primary" class="login_button" size="large" @click="to_appointment()">Activities</el-button>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="3"   v-if="anti_AddNum">
+        <div class="grid-content bg-purple">
+          <div :key="fits"  class="row">
+            <span data-v-1611e720="" class="badgeLine">|</span>
+            <a @click="to_personal_center()" style="cursor: pointer;">My order</a>
+            <span data-v-1611e720="" class="badgeLine">|</span>
+            <el-dropdown>
+            <span class="el-dropdown-link">
+               <el-icon class="el-icon--right">
+                <arrow-down />
+              </el-icon>
+              {{username.username}}
+            </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>Personal information</el-dropdown-item>
+                  <el-dropdown-item>dishonest actions</el-dropdown-item>
+                  <el-dropdown-item>Complaints Suggestions</el-dropdown-item>
+                  <el-dropdown-item>assistance center</el-dropdown-item>
+<!--                  <el-dropdown-item disabled>Action 4</el-dropdown-item>-->
+                  <el-dropdown-item divided>quit</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="3" :offset="9" v-if="addNum">
+        <div class="grid-content bg-purple">
+          <div :key="fits"  class="row">
+            <el-button type="primary" class="login_button" size="large" @click="to_login()">login</el-button>
           </div>
         </div>
       </el-col>
@@ -47,6 +88,8 @@
                   size="large"
                   placeholder="Please Input the type of activities and Venues"
                   class="search"
+                  v-model="search"
+                  @keyup.enter.native="searchInfo"
               >
                 <template #suffix>
                   <el-icon class="el-input__icon"><search /></el-icon>
@@ -60,16 +103,12 @@
       <el-tag type="warning" class="row3-warn"  >系统公告|各位老师~同学
         <el-icon style="left:86%"><ArrowRightBold/></el-icon>
       </el-tag>
-      <div class="row4">
-        <el-icon :size="25"><ArrowLeft /></el-icon>
-        <img class="row4-img" src="../assets/image/1.png" @click="dance(dance)" alt="dance">
-        <img class="row4-img" src="../assets/image/2.png" @click="" alt="football">
-        <img class="row4-img" src="../assets/image/3.png" @click="" alt="Calligraphy studio">
-        <img class="row4-img" src="../assets/image/4.png" @click="" alt="Instrument room">
-        <img class="row4-img" src="../assets/image/5.png" @click="" alt="PingPing ball room">
-        <img class="row4-img" src="../assets/image/6.png" @click="" alt="badminton">
-        <img class="row4-img" src="../assets/image/7.png" @click="" alt="Piano room">
-        <el-icon :size="25"><ArrowRight /></el-icon>
+      <div class="row4" >
+        <el-carousel indicator-position="outside" arrow="always" :interval="500000000000" v-if="smallIconData.length>0">
+          <el-carousel-item v-for="(list,num) in smallIconData" :key="num" >
+            <img  v-for="(imgList,index2) in list" class="row4-img" :src="require('../assets/image/'+imgList.photo+'.png')" @click="classify(index2)" :alt="imgList.alt">
+          </el-carousel-item>
+        </el-carousel>
       </div>
       <div class="row4-recommend">
         <el-button type="primary" size="small"></el-button>
@@ -79,61 +118,28 @@
   </el-row>
   <el-row >
     <el-col
-        :span="3"
-        :offset="3"
+        v-for="(activity, index) in tableData"
+        :key="activity"
+        :span="5"
+        :offset="index > 0 ? 3 : 0"
+        style="margin-left: 10%;"
     >
       <el-card :body-style="{ padding: '0px' }">
       <img
-          src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          :src="require('../assets/activityPhoto/'+activity.photo)"
           class="image"
-          alt="1"
+          :alt="activity.venueName"
       />
       <div style="padding: 14px">
-        <span>地址</span>
+        <p>venueName:</p>
+        <span>{{activity.venueName}}</span>
+        <p>address:</p>
+        <span>{{activity.address}}</span>
         <div class="bottom">
-          <time class="time">时间:{{ currentDate }}</time>
-          <el-button type="text" class="button">Operating</el-button>
+          <time class="time">time:{{ activity.openTime }}</time>
         </div>
       </div>
     </el-card>
-    </el-col>
-    <el-col
-        :span="3"
-        :offset="4"
-    >
-      <el-card :body-style="{ padding: '0px' }">
-        <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-            alt="2"
-        />
-        <div style="padding: 14px">
-          <span>地址</span>
-          <div class="bottom">
-            <time class="time">时间:{{ currentDate }}</time>
-            <el-button type="text" class="button">Operating</el-button>
-          </div>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col
-        :span="3"
-        :offset="4"
-    >
-      <el-card :body-style="{ padding: '0px' }">
-        <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-            alt="3"
-        />
-        <div style="padding: 14px">
-          <span>地址</span>
-          <div class="bottom">
-            <time class="time">时间:{{ currentDate }}</time>
-            <el-button type="text" class="button">Operating</el-button>
-          </div>
-        </div>
-      </el-card>
     </el-col>
   </el-row>
   <el-row>
@@ -144,21 +150,84 @@
 </template>
 
 <script>
-import {Search,ArrowRight,ArrowLeft,ArrowRightBold} from '@element-plus/icons-vue'
+import {Search,ArrowRight,ArrowLeft,ArrowRightBold,ArrowDown} from '@element-plus/icons-vue'
+import request from "../utils/request";
 export default {
   name: "cover",
-  components:{Search,ArrowRight,ArrowLeft,ArrowRightBold},
+  components:{Search,ArrowRight,ArrowLeft,ArrowRightBold,ArrowDown},
   data(){
     return{
       fits:'contain',
       fits2:'scale-down',
       currentDate:'1990',
+      search:'',
+      tableData:[
+      ],
+      smallIconData:[
+      ],
+      addNum:true,
+      anti_AddNum:false,
+      username:'',
+    }
+  },
+  created() {
+    this.load()
+    if(sessionStorage.getItem("user")!=null){
+      this.addNum = false
+      this.anti_AddNum = true
+      this.username = JSON.parse(sessionStorage.getItem("user"))
     }
   },
   methods:{
-    dance(category){
+    load(){
+      request.get("/Activity/cover",{
+        params: {
+        }
+      }).then(res =>{
+        console.log(res)
+        this.tableData = res.data
+      })
+      request.get("/Activity/cover/smallIcon",{
+      }).then(res =>{
+        console.log(res)
+        this.smallIconData = res.data
+        if(this.smallIconData && this.smallIconData.length>0) {
+          let newDataList = []
+          let current = 0
+          for (let i = 0; i <= this.smallIconData.length - 1; i++) {
+            if (i % 7 !== 0 || i === 0) {
+              if (!newDataList[current]) {
+                newDataList.push([this.smallIconData[i]])
+              } else {
+                newDataList[current].push(this.smallIconData[i])
+              }
+            } else {
+              current++
+              newDataList.push([this.smallIconData[i]])
+            }
+          }
+          this.smallIconData = [...newDataList]
+        }
+      })
+    },
+    classify(category){
       sessionStorage.setItem("category",JSON.stringify(category))
       this.$router.push("/appointment")
+    },
+    to_home(){
+      this.$router.push("/cover")
+    },
+    to_appointment(){
+      this.$router.push("/appointment")
+    },
+    to_login(){
+      this.$router.push("/login")
+    },
+    to_personal_center(){
+      this.$router.push("/personal_center")
+    },
+    searchInfo(){
+      this.$router.push({name:'appointment',params:{searchName:this.search}})
     }
   }
 }
@@ -244,8 +313,8 @@ export default {
 }
 
 .row4-img{
-  width: 10.11%;
-  margin-left: 20px;
+  float: left;
+  margin-left: 30px;
   margin-right: 20px;
 }
 
@@ -263,5 +332,20 @@ export default {
   margin-top:20px;
   color: #7e8187;
   background: #f9f9f9;
+}
+
+.badgeLine{
+  font-family: Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+  line-height: 20px;
+  list-style: none;
+  font-size: 20px;
+  color: #ccc;
+}
+
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
 }
 </style>

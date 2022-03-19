@@ -5,15 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@TableName("user")
+@TableName("smallicon")
 @Data
-public class User {
+public class SmallIcon {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String  username;
-    private String  password;
     private String photo;
-    private String  phone;
-    private int reputation;
-    private int role;
+    private String category;
+    private String alt;
 }

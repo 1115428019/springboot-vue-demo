@@ -6,36 +6,8 @@ const routes = [
     path: '/',
     name: 'layout',
     component: layout,
-    redirect:"/book",
-    children:[{
-      path: 'user',
-      name: 'User',
-      component: () => import("../views/User"),
-    },
-      {
-      path: '/book',
-      name: 'book',
-      component: () => import("../views/book"),
-        meta: {
-          requireAuth: true
-        }
-    },
-      {
-        path: '/person',
-        name: 'person',
-        component: () => import("../views/person"),
-        meta: {
-          requireAuth: true
-        }
-      },
-      {
-        path: '/news',
-        name: 'News',
-        component: () => import("../views/News"),
-        meta: {
-          requireAuth: true
-        }
-      }
+    redirect:"/cover",
+    children:[
     ]
   },
   {
@@ -57,6 +29,11 @@ const routes = [
     path:'/appointment',
     name:'appointment',
     component: () => import("../views/appointment")
+  },
+  {
+    path: '/personal_center',
+    name:'personal_center',
+    component: () => import("../views/personal_center")
   }
 ]
 

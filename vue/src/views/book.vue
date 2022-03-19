@@ -68,7 +68,7 @@
           </el-form-item>
           <el-form-item label="封面">
             <el-upload ref="upload" action="http://localhost:9090/files/upload" :on-success="filesUploadSuccess">
-              <el-button  type="primary">点击上传</el-button>
+              <el-button  type="success">点击上传</el-button>
             </el-upload>
           </el-form-item>
         </el-form>
@@ -91,7 +91,7 @@ export default {
   name: 'book',
   components: {
   },
-  created() {``
+  created() {
     this.load()
   },
   methods:{
