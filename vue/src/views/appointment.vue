@@ -64,7 +64,7 @@
                 <el-dropdown-item>Complaints Suggestions</el-dropdown-item>
                 <el-dropdown-item>assistance center</el-dropdown-item>
                 <!--                  <el-dropdown-item disabled>Action 4</el-dropdown-item>-->
-                <el-dropdown-item divided>quit</el-dropdown-item>
+                <el-dropdown-item divided @click="cleanUser">quit</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -205,6 +205,10 @@ export default {
     }
   },
   methods:{
+    cleanUser(){
+      sessionStorage.removeItem("user")
+      this.$router.go(0)
+    },
     handleSizeChange(pageSize){
       this.pageSize = pageSize
       this.load()
