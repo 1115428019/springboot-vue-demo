@@ -14,4 +14,6 @@ public interface ActivityMapper extends BaseMapper<Activity> {
     @Select("Select * from activity where recommend=#{recommend}")
     public List<Activity> Recommend(Integer recommend);
 
+//    @Select("Select * from activity where id=#{ac_id}")
+//    public List<Activity> SelectId(Integer ac_id);
 }

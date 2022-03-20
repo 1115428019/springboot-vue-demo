@@ -34,6 +34,11 @@ const routes = [
     path: '/personal_center',
     name:'personal_center',
     component: () => import("../views/personal_center")
+  },
+  {
+    path:'/reservation',
+    name:'reservation',
+    component: ()=>import("../views/reservation")
   }
 ]
 

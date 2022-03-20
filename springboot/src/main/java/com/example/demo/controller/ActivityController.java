@@ -85,4 +85,10 @@ public class ActivityController {
         Page<Activity> newsPage = activityMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return Result.success(newsPage);
     }
+
+    @GetMapping("/detail")
+    @CrossOrigin
+    public Result<?> detail(@RequestParam(defaultValue = "1")Integer ac_id){
+        return Result.success(activityMapper.selectById(ac_id));
+    }
 }

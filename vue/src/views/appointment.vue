@@ -148,6 +148,7 @@
               :src="require('../assets/activityPhoto/'+activity.photo)"
               class="image"
               :alt="activity.venueName"
+              @click="to_reservation(activity.id)"
           />
           <div style="padding: 14px">
             <p>venueName:</p>
@@ -238,6 +239,9 @@ export default {
     },
     to_personal_center(){
       this.$router.push("/personal_center")
+    },
+    to_reservation(id){
+      this.$router.push({name:'reservation',params:{ac_id:id}})
     },
     searchInfo(){
       request.get("/Activity",{
