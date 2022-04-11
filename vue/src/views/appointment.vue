@@ -48,7 +48,7 @@
       <div class="grid-content bg-purple">
         <div :key="fits"  class="row">
           <span data-v-1611e720="" class="badgeLine">|</span>
-          <a @click="to_personal_center()" style="cursor: pointer;">My order</a>
+          <a  @click="ToShowOrder" style="cursor: pointer;">My order</a>
           <span data-v-1611e720="" class="badgeLine">|</span>
           <el-dropdown>
             <span class="el-dropdown-link">
@@ -59,10 +59,11 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>Personal information</el-dropdown-item>
+                <el-dropdown-item @click="to_personal_center()">Personal information</el-dropdown-item>
                 <el-dropdown-item>dishonest actions</el-dropdown-item>
-                <el-dropdown-item>Complaints Suggestions</el-dropdown-item>
+                <el-dropdown-item @click="ToFeedback()">Complaints Suggestions</el-dropdown-item>
                 <el-dropdown-item>assistance center</el-dropdown-item>
+                <el-dropdown-item @click="to_chat_sb">BBS interface</el-dropdown-item>
                 <!--                  <el-dropdown-item disabled>Action 4</el-dropdown-item>-->
                 <el-dropdown-item divided @click="cleanUser">quit</el-dropdown-item>
               </el-dropdown-menu>
@@ -232,6 +233,9 @@ export default {
         this.total = res.data.total
       })
     },
+    to_chat_sb(){
+      this.$router.push("/chat")
+    },
     to_home(){
       this.$router.push("/cover")
     },
@@ -240,6 +244,9 @@ export default {
     },
     to_login(){
       this.$router.push("/login")
+    },
+    ToShowOrder(){
+      this.$router.push("/Showorder")
     },
     to_personal_center(){
       this.$router.push("/personal_center")
@@ -285,6 +292,9 @@ export default {
         this.tableData = res.data.records
         this.total = res.data.total
       })
+    },
+    ToFeedback(){
+      this.$router.push("/CreateFeedback")
     },
   },
   data(){

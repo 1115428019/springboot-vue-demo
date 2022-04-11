@@ -39,6 +39,31 @@ const routes = [
     path:'/reservation',
     name:'reservation',
     component: ()=>import("../views/reservation")
+  },
+  {
+    path:'/chat',
+    name:'chat',
+    component: ()=>import("../views/chat")
+  },
+  {
+    path:'/CreateFeedback',
+    name:'CreateFeedback',
+    component: ()=>import("../views/CreateFeedback")
+  },
+  {
+    path:'/Newfeedback',
+    name:'Newfeedback',
+    component: ()=>import("../views/Newfeedback")
+  },
+  {
+    path:'/Showorder',
+    name:'Showorder',
+    component: ()=>import("../views/Showorder")
+  },
+  {
+    path:'/pay',
+    name:'pay',
+    component: ()=>import("../views/Pay")
   }
 ]
 
