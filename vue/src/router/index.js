@@ -64,6 +64,11 @@ const routes = [
     path:'/pay',
     name:'pay',
     component: ()=>import("../views/Pay")
+  },
+  {
+    path:'/Faq',
+    name:'Faq',
+    component: ()=>import("../views/Faq")
   }
 ]
 

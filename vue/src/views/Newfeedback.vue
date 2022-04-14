@@ -60,9 +60,9 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="to_personal_center()">Personal information</el-dropdown-item>
-                <el-dropdown-item>dishonest actions</el-dropdown-item>
                 <el-dropdown-item @click="ToFeedback()">Complaints Suggestions</el-dropdown-item>
-                <el-dropdown-item>assistance center</el-dropdown-item>
+                <el-dropdown-item @click="ToFaq">assistance center</el-dropdown-item>
+                <el-dropdown-item @click="to_chat_sb">BBS interface</el-dropdown-item>
                 <!--                  <el-dropdown-item disabled>Action 4</el-dropdown-item>-->
                 <el-dropdown-item divided @click="cleanUser()">quit</el-dropdown-item>
               </el-dropdown-menu>
@@ -162,6 +162,9 @@ export default {
         this.tableData = res.data.records
         this.total = res.data.total
       })
+    },
+    ToFaq(){
+      this.$router.push("/Faq")
     },
     save() {
       if (this.form.id) {//更新

@@ -60,9 +60,9 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="to_personal_center()">Personal information</el-dropdown-item>
-                <el-dropdown-item>dishonest actions</el-dropdown-item>
                 <el-dropdown-item @click="ToFeedback()">Complaints Suggestions</el-dropdown-item>
-                <el-dropdown-item>assistance center</el-dropdown-item>
+                <el-dropdown-item @click="ToFaq">assistance center</el-dropdown-item>
+                <el-dropdown-item @click="to_chat_sb">BBS interface</el-dropdown-item>
                 <!--                  <el-dropdown-item disabled>Action 4</el-dropdown-item>-->
                 <el-dropdown-item divided @click="cleanUser()">quit</el-dropdown-item>
               </el-dropdown-menu>
@@ -278,6 +278,9 @@ export default {
       this.tF = true
       this.Utf = false
       this.Uutf = false
+    },
+    ToFaq(){
+      this.$router.push("/Faq")
     },
     UnusedTotal(){
       this.tF = false
