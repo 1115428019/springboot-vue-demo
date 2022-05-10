@@ -3,7 +3,6 @@ package com.example.demo.controller;
 
 import com.example.demo.common.Result;
 import com.example.demo.entity.Activity;
-import com.example.demo.entity.Appointment;
 import com.example.demo.entity.VenueTime;
 import com.example.demo.mapper.ActivityMapper;
 import com.example.demo.mapper.AppointmentMapper;
@@ -39,10 +38,10 @@ public class VenueTimeController {
 
     @GetMapping("/operation")
     @CrossOrigin
-    public Result<?> appointmentUser(@RequestParam(defaultValue = "1") Integer arrayTime,
-                                     @RequestParam(defaultValue = "1") Integer userId,
-                                     @RequestParam(defaultValue = "1") Integer venueId,
-                                     @RequestParam(defaultValue = "1") Integer day){
+    public Result<?> appointmentUser(@RequestParam(defaultValue = "1",name="arrayTime") Integer arrayTime,
+                                     @RequestParam(defaultValue = "1",name="userId") Integer userId,
+                                     @RequestParam(defaultValue = "1",name="venueId") Integer venueId,
+                                     @RequestParam(defaultValue = "1",name="day") Integer day){
         appointmentMapper.insertSb(userId,venueId,arrayTime,day);
         VenueTime venueTime = venueTimeMapper.SelectSb(venueId,arrayTime,day);
         if(venueTime.getState()>0) {
@@ -57,5 +56,11 @@ public class VenueTimeController {
         userorderMapper.insertSth(userId,venueId,day,arrayTime,0,sth.getVenueName(),sth.getAddress(),second.getActualTime());
         String back = "Make an appointment success";
         return Result.success(back);
+    }
+
+    @GetMapping("/phone/detail/{venueId}")
+    @CrossOrigin
+    public Result<?> Phone_Venue_Time(@PathVariable Integer venueId){
+        return Result.success(venueTimeMapper.search(venueId));
     }
 }

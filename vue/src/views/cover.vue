@@ -25,7 +25,7 @@
       <el-col :span="4">
         <div class="grid-content bg-purple">
           <div :key="fits"  class="row">
-            <div :fit="fits" class="row1-title1">体育中心系统</div>
+<!--            <div :fit="fits" class="row1-title1">体育中心系统</div>-->
             <div :fit="fits" class="row1-title2">Sports Management System</div>
           </div>
         </div>
@@ -82,8 +82,8 @@
   <el-row style="height: 500px">
     <el-col :span="24" style="width: 100%" class="row2back">
       <div class="grid-content bg-purple">
-              <div class="row2-title1">智能预约</div>
-              <div class="row2-title2">INTELLIGENT APPOINTMENT</div>
+<!--              <div class="row2-title1">智能预约</div>-->
+              <div class="row2-title1">INTELLIGENT APPOINTMENT</div>
               <el-input
                   size="large"
                   placeholder="Please Input the type of activities and Venues"
@@ -100,7 +100,7 @@
   </el-row>
   <el-row >
     <el-col :span="24" ><div class="grid-content bg-purple">
-      <el-tag type="warning" class="row3-warn"  >系统公告|各位老师~同学
+      <el-tag type="warning" class="row3-warn"  >System Announcement | Teachers~Students
         <el-icon style="left:86%"><ArrowRightBold/></el-icon>
       </el-tag>
       <div class="row4" >
@@ -145,7 +145,7 @@
   </el-row>
   <el-row>
     <el-col>
-      <div class="row5_bottom">Copyright © 2021 西南交通大学. All rights reserved.</div>
+      <div class="row5_bottom">Copyright © 2021 Southwest Jiaotong University. All rights reserved.</div>
     </el-col>
   </el-row>
 </template>
@@ -272,13 +272,16 @@ export default {
   font-family: "KaiTi",serif;
   letter-spacing: normal;
 }
-
+/*change*/
 .row1-title2{
   text-align: center;
-  font-size: small;
   font-family: "Microsoft JhengHei",serif;
   font-weight: bold;
+  font-size: 20px;
+  width: 300px;
   color: #8c939d;
+  top:20px;
+  position: relative;
 }
 .login_button{
   font-size: x-large;
@@ -305,8 +308,7 @@ export default {
   text-align: center;
   color: darkred;
   font-size: x-large;
-  font-weight: bold;
-  font-style: italic;
+  font-family: "Times New Roman",serif;
 }
 
 .row2-title2{

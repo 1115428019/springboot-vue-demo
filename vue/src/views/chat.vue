@@ -25,7 +25,7 @@
     <el-col :span="4">
       <div class="grid-content bg-purple">
         <div :key="fits"  class="row">
-          <div :fit="fits" class="row1-title1">体育中心系统</div>
+<!--          <div :fit="fits" class="row1-title1">体育中心系统</div>-->
           <div :fit="fits" class="row1-title2">Sports Management System</div>
         </div>
       </div>
@@ -87,23 +87,23 @@
           style="width: 100%"
       >
         <el-table-column prop="id" label="ID" sortable />
-        <el-table-column prop="username" label="作者"  />
-        <el-table-column prop="content" label="内容" />
-        <el-table-column prop="time" label="评论时间" />
-        <el-table-column  label="操作">
+        <el-table-column prop="username" label="author"  />
+        <el-table-column prop="content" label="content" />
+        <el-table-column prop="time" label="comment time" />
+        <el-table-column  label="operation">
           <template #default="scope">
-            <el-button size="mini"  @click="details(scope.row)">详情</el-button>
+            <el-button size="mini"  @click="details(scope.row)">details</el-button>
           </template>
         </el-table-column>
       </el-table>
-    <el-dialog title="提示" v-model="dialogVisible" width="50%">
+    <el-dialog title="hint" v-model="dialogVisible" width="50%">
       <el-form :model="form" label-width="120px">
         <div id="div1"></div>
       </el-form>
       <template #footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="saveNew">确 定</el-button>
+            <el-button @click="dialogVisible = false">cancel</el-button>
+            <el-button type="primary" @click="saveNew">confirm</el-button>
           </span>
       </template>
     </el-dialog>
@@ -271,10 +271,13 @@ export default {
 
 .row1-title2{
   text-align: center;
-  font-size: small;
   font-family: "Microsoft JhengHei",serif;
   font-weight: bold;
+  font-size: 20px;
+  width: 300px;
   color: #8c939d;
+  top:20px;
+  position: relative;
 }
 
 .login_button{

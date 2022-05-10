@@ -26,7 +26,7 @@
     <el-col :span="4">
       <div class="grid-content bg-purple">
         <div :key="fits"  class="row">
-          <div :fit="fits" class="row1-title1">体育中心系统</div>
+<!--          <div :fit="fits" class="row1-title1">体育中心系统</div>-->
           <div :fit="fits" class="row1-title2">Sports Management System</div>
         </div>
       </div>
@@ -303,10 +303,13 @@ export default {
 
 .row1-title2{
   text-align: center;
-  font-size: small;
   font-family: "Microsoft JhengHei",serif;
   font-weight: bold;
+  font-size: 20px;
+  width: 300px;
   color: #8c939d;
+  top:20px;
+  position: relative;
 }
 
 .login_button{

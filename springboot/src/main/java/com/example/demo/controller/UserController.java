@@ -27,7 +27,7 @@ public class UserController {
     public Result<?> login(@RequestBody User user) {
         User user_check= userMapper.login(user);
         if(user_check == null){
-            return Result.error("-1","用户名或者密码错误");
+            return Result.error("-1","Username or password is incorrect");
         }
         return Result.success(user_check);
     }
@@ -37,7 +37,7 @@ public class UserController {
     public Result<?> register(@RequestBody User user) {
         User user_check= userMapper.register(user);
         if(user_check != null){
-            return Result.error("-1","用户名重复");
+            return Result.error("-1","Duplicate username");
         }
         userMapper.insert(user);
         return Result.success();
@@ -68,21 +68,33 @@ public class UserController {
     @GetMapping("/phone/register/{phone}/{password}")
     @CrossOrigin
     public Result<?> register(@PathVariable String phone,@PathVariable String password){
-        if(!userMapper.test(phone))
+        User test = userMapper.test(phone);
+        if(test==null)
         {
             userMapper.insertPhone(phone,password,phone);
             return Result.success();
         }
-        return Result.error("1","手机号已经被注册");
+        return Result.error("1","The phone number has already been registered");
     }
 
     @GetMapping("/phone/login/{username}/{password}")
     @CrossOrigin
     public Result<?> phoneLogin(@PathVariable String username,@PathVariable String password){
-
-        if(!userMapper.phone_login(username,password)){
-            return Result.error("1","用户名或者密码不正确");
+        User test=userMapper.phone_login(username,password);
+        if(test==null){
+            return Result.error("1","wrong username or password");
         }
-        return Result.success("登陆成功");
+        return Result.success(userMapper.phone_get_user(username,password));
+    }
+
+    @GetMapping("/change/{username}/{password}/{newPassword}")
+    @CrossOrigin
+    public Result<?> phoneChange(@PathVariable String username,@PathVariable String password,@PathVariable String newPassword){
+        int test=userMapper.phone_change(username,password,newPassword);
+//        System.out.println(username+"|"+password+"|"+newPassword);
+        if(test==0){
+            return Result.error("1","The password or account number is wrong, the modification failed");
+        }
+        return Result.success(userMapper.phone_change(username,password,newPassword));
     }
 }

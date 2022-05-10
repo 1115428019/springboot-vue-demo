@@ -84,7 +84,7 @@ public class FileController {
                 os.close();
             }
         } catch (Exception e) {
-            System.out.println("文件下载失败");
+            System.out.println("File download failed");
         }
     }
 }

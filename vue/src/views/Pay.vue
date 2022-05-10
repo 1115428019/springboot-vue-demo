@@ -18,8 +18,8 @@
       <p class="price">¥&nbsp;{{ amt }}</p>
 
       <div slot='footer' class="dialog-footer" style="margin-top: 3%">
-      <el-button type="primary" @click="confirm">已支付</el-button>
-      <el-button type="warning" @click="cancel">取消</el-button>
+      <el-button type="primary" @click="confirm">Paid</el-button>
+      <el-button type="warning" @click="cancel">Cancel</el-button>
         <h3> You will back to home page after<span>&nbsp;{{initTime}}&nbsp;</span></h3>
     </div>
   </div>

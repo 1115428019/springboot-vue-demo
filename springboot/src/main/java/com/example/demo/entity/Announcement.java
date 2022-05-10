@@ -13,5 +13,6 @@ public class Announcement {
     private Integer id;
     private String content;
     private Integer venueNumber;
-
+    private String venueName;
+    private String time;
 }

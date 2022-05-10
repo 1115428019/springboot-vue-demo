@@ -25,7 +25,7 @@
     <el-col :span="4">
       <div class="grid-content bg-purple">
         <div :key="fits"  class="row">
-          <div :fit="fits" class="row1-title1">体育中心系统</div>
+<!--          <div :fit="fits" class="row1-title1">体育中心系统</div>-->
           <div :fit="fits" class="row1-title2">Sports Management System</div>
         </div>
       </div>
@@ -82,7 +82,7 @@
   <el-row>
     <el-col :span="24" >
       <div class="grid-content bg-purple">
-        <el-tag type="warning" class="row2-warn" @click="dialogTableVisible = true" >预约公告|关于{{tableData.venueName}}的通知
+        <el-tag type="warning" class="row2-warn" @click="dialogTableVisible = true" >Appointment announcement|Notice about {{tableData.venueName}}
           <el-icon><ArrowRightBold/></el-icon>
         </el-tag>
       </div>
@@ -194,7 +194,7 @@
     <el-col ><el-button type="primary" size="normal" style="z-index: 1" @click="user_Subscribe">submit</el-button></el-col>
   </el-row>
   <el-row><el-col>
-    <div class="row4_bottom">Copyright © 2021 西南交通大学. All rights reserved.</div>
+    <div class="row4_bottom">Copyright © 2021 Southwest Jiaotong University. All rights reserved.</div>
   </el-col></el-row>
 <!--  未登录提示-->
   <el-dialog v-model="dialogUserVisible" title="notice">
@@ -375,7 +375,7 @@ export default {
           ac_id: ac_id,
         }
       }).then(res =>{
-        console.log(res)
+        console.log(res.data)
         this.tableData = res.data
         this.photoLoad = true
         this.photo = res.data.photo
@@ -462,10 +462,13 @@ export default {
 
 .row1-title2{
   text-align: center;
-  font-size: small;
   font-family: "Microsoft JhengHei",serif;
   font-weight: bold;
+  font-size: 20px;
+  width: 300px;
   color: #8c939d;
+  top:20px;
+  position: relative;
 }
 .login_button{
   font-size: x-large;
